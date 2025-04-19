@@ -1,0 +1,49 @@
+// Dextrocoins ICO
+
+pragma solidity ^0.4.11;
+
+contract dextrocoins_ico {
+    // Maximum number of Dextrocoins available for sale
+    uint public max_dextrocoins = 1000000;
+
+    // USD to Dextrocoins conversion rate
+    uint public usd_to_dextrocoins = 1000;
+
+    // Total number of Dextrocoins that have been bought
+    uint public total_dextrocoins_bought = 0;
+
+    // Mapping from investor address to their equity in Dextrocoins and USD
+    mapping(address => uint) equity_dextrocoins;
+    mapping(address => uint) equity_usd;
+
+    // Modifier to check if an investor can buy Dextrocoins
+    modifier can_buy_dextrocoins(uint usd_invested) {
+        require(usd_invested * usd_to_dextrocoins + total_dextrocoins_bought <= max_dextrocoins);
+        _;
+    }
+
+    // View function to get Dextrocoin equity of an investor
+    function equity_in_dextrocoins(address investor) external constant returns (uint) {
+        return equity_dextrocoins[investor];
+    }
+
+    // View function to get USD equity of an investor
+    function equity_in_usd(address investor) external constant returns (uint) {
+        return equity_usd[investor];
+    }
+
+    // Function to buy Dextrocoins
+    function buy_dextrocoins(address investor, uint usd_invested) external can_buy_dextrocoins(usd_invested) {
+        uint dextrocoins_bought = usd_invested * usd_to_dextrocoins;
+        equity_dextrocoins[investor] += dextrocoins_bought;
+        equity_usd[investor] = equity_dextrocoins[investor] / 1000;
+        total_dextrocoins_bought += dextrocoins_bought;
+    }
+
+    // Function to sell Dextrocoins
+    function sell_dextrocoins(address investor, uint dextrocoins_sold) external {
+        equity_dextrocoins[investor] -= dextrocoins_sold;
+        equity_usd[investor] = equity_dextrocoins[investor] / 1000;
+        total_dextrocoins_bought -= dextrocoins_sold;
+    }
+}
