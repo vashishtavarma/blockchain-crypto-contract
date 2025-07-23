@@ -55,7 +55,6 @@ pip install -r requirements.txt
 - Interact with contract functions: buy, sell, and view equity.
 
 ## Workflow
-- All files and folders listed in `.gitignore` are excluded from documentation and version control.
 - To update dependencies, modify `requirements.txt` in `name==version` format and re-install.
 - Follow the structure above for running and extending the project.
 
