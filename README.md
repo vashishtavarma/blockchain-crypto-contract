@@ -30,7 +30,7 @@
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/vashishtavarma/blockchain-crypto-contract.git
    cd blockchain-crypto-contract
    ```
 
